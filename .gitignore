@@ -1,0 +1,11 @@
+target
+.idea
+.idea/*
+.idea_modules
+\#*#
+*~
+.#*
+.bsp
+exports.conf
+test.yaml
+untitled.sc
