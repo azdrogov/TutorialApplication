@@ -1,6 +1,5 @@
 import cats.effect.Sync
-import cats.implicits.*
-import org.http4s.*
+import org.http4s._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.dsl.io.{QueryParamDecoderMatcher, Root}
 

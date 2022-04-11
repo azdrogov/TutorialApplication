@@ -9,5 +9,5 @@ trait Tutorials[F[_]] {
 object Tutorials {
   implicit def apply[F[_]](implicit ev: Tutorials[F]): Tutorials[F] = ev
   
-  final class TutorialImpl[F[_]](svc: )
+  final class TutorialImpl[F[_]](service: TutorialService[F])
 }
