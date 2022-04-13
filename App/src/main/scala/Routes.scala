@@ -16,17 +16,17 @@ object Routes {
       case GET -> apiRoot / "tutorials" =>
         Ok("Hello")
 
-      case POST -> apiRoot / "tutorials" => Ok("POST -> apiRoot / \"tutorials\"")
+      case POST -> apiRoot / "tutorials" => Ok("POST -> apiRoot / tutorials")
 
-      case GET -> apiRoot / "tutorials" / id => Ok(s"GET apiRoot / \"tutorials\" / $id")
+      case GET -> apiRoot / "tutorials" / id => Ok(s"GET apiRoot / tutorials / $id")
 
-      case PUT -> apiRoot / "tutorials" / id => Ok(s"PUT apiRoot / \"tutorials\" / $id")
+      case PUT -> apiRoot / "tutorials" / id => Ok(s"PUT apiRoot / tutorials / $id")
 
-      case DELETE -> apiRoot / "tutorials" / id => Ok(s"DELETE apiRoot / \"tutorials\" / $id")
+      case DELETE -> apiRoot / "tutorials" / id => Ok(s"DELETE apiRoot / tutorials / $id")
 
-      case DELETE -> apiRoot / "tutorials" => Ok(s"DELETE apiRoot / \"tutorials\"")
+      case DELETE -> apiRoot / "tutorials" => Ok(s"DELETE apiRoot / tutorials")
 
-      case GET -> apiRoot / "tutorials" / "keywords" :? TitleQueryParamMatcher(title) => Ok(s"GET apiRoot / \"tutorials\" 11 $title")
+      case GET -> apiRoot / "tutorials" / "keywords" :? TitleQueryParamMatcher(title) => Ok(s"GET apiRoot / tutorials 11 $title")
     }
   }
 }

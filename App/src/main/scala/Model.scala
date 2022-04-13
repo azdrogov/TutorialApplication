@@ -1,15 +1,11 @@
 import cats.effect.kernel.Sync
-
 import doobie._
 import doobie.implicits._
-import cats.syntax.show._
-import io.estatico.newtype.macros._
 import cats.implicits._
-
 
 import java.util.UUID
 
-@newtype sealed abstract case class Tutorial(
+case class Tutorial(
   id: UUID,
   title: String,
   description: Option[String],
@@ -17,6 +13,7 @@ import java.util.UUID
 )
 
 final class TutorialService[F[_]: Sync](trx: Transactor[F]) {
+
 
   def getAll: F[List[Tutorial]] =
     Queries
@@ -70,15 +67,15 @@ private object Queries {
   def getAll =
     sql"SELECT id, title, description, published FROM tutorial".query[Tutorial]
 
-  def insert(tutorial: Tutorial): Update0 =
-    sql"INSERT INTO tutorial (id, title, description, published) values (${tutorial.id.show}, tutorial.title, tutorial.description, tutorial.published)".update
+  def insert(t: Tutorial): Update0 =
+    sql"INSERT INTO tutorial (id, title, description, published) values (${t.id}, t.title, t.description, t.published)".update
 
-  def update(tutorial: Tutorial): Update0 =
+  def update(t: Tutorial): Update0 =
     sql"""|UPDATE tutorial SET
-          |  title = ${tutorial.title},
-          |  description = ${tutorial.description},
-          |  published = ${tutorial.published}
-          |WHERE id = ${tutorial.id}""".stripMargin.update
+          |  title = ${t.title},
+          |  description = ${t.description},
+          |  published = ${t.published}
+          |WHERE id = ${t.id}""".stripMargin.update
 
   def delete(id: String) =
     sql"DELETE FROM tutorial where id = $id".update

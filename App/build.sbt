@@ -17,5 +17,7 @@ libraryDependencies ++= Seq(
   "co.fs2" %% "fs2-core" % "3.2.7",
   "io.estatico" %% "newtype" % "0.4.4",
   "org.tpolecat" %% "doobie-core"      % "1.0.0-RC1",
+  "org.tpolecat" %% "doobie-postgres"  % "1.0.0-RC1",
+  "com.github.pureconfig" %% "pureconfig" % "0.17.1",
   "ch.qos.logback" % "logback-classic" % "1.2.11" % Runtime
 )
