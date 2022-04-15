@@ -1,6 +1,8 @@
 import cats.effect.kernel.Sync
 import doobie._
 import doobie.implicits._
+import doobie.postgres._
+import doobie.postgres.implicits._
 import cats.implicits._
 
 import java.util.UUID
@@ -13,7 +15,6 @@ case class Tutorial(
 )
 
 final class TutorialService[F[_]: Sync](trx: Transactor[F]) {
-
 
   def getAll: F[List[Tutorial]] =
     Queries
@@ -42,17 +43,18 @@ final class TutorialService[F[_]: Sync](trx: Transactor[F]) {
       .run
       .transact(trx)
 
-  def getById(id: String): F[Tutorial] =
+  def getById(id: String): F[Option[Tutorial]] =
     Queries
       .getById(id)
-      .unique
+      .option
       .transact(trx)
 
-  def deleteAll(): F[Int] =
+  def deleteAll(): F[Unit] =
     Queries
       .deleteAll
       .run
       .transact(trx)
+      .void
 
   def findByKeyword(keyword: String): F[List[Tutorial]] =
     Queries

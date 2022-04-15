@@ -1,22 +1,31 @@
 trait Tutorials[F[_]] {
   def insert(tutorial: Tutorial): F[String]
-  def update(dev: Tutorial): F[Int]
+  def update(dev: Tutorial): F[Unit]
   def delete(id: String): F[Int]
 
-  def findAll(): F[List[Tutorial]]
+  def getAll: F[List[Tutorial]]
+  def getById(id: String): F[Option[Tutorial]]
+  def deleteAll(): F[Unit]
+  def findByKeyWord(keyword: String): F[List[Tutorial]]
 }
 
 object Tutorials {
   implicit def apply[F[_]](implicit ev: Tutorials[F]): Tutorials[F] = ev
   
   final class TutorialImpl[F[_]](service: TutorialService[F]) extends Tutorials[F] {
-    override def insert(tutorial: Tutorial): F[String] = ???
+    override def insert(tutorial: Tutorial): F[String] = service.insert(tutorial)
 
-    override def update(dev: Tutorial): F[Int] = ???
+    override def update(tutorial: Tutorial): F[Unit] = service.update(tutorial)
 
-    override def delete(id: String): F[Int] = ???
+    override def delete(id: String): F[Int] = service.delete(id)
 
-    override def findAll(): F[List[Tutorial]] = ???
+    override def getAll: F[List[Tutorial]] = service.getAll
+
+    override def getById(id: String): F[Option[Tutorial]] = service.getById(id)
+
+    override def deleteAll(): F[Unit] = service.deleteAll()
+
+    override def findByKeyWord(keyword: String): F[List[Tutorial]] = service.findByKeyword(keyword)
   }
 
   def impl[F[_]](svc: TutorialService[F]): Tutorials[F] = new TutorialImpl[F](svc)
