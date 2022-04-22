@@ -6,8 +6,8 @@ scalaVersion := "2.13.3"
 
 
 libraryDependencies ++= Seq(
-  "org.http4s" %% "http4s-ember-server" % "0.23.11",
-  "org.http4s" %% "http4s-ember-client" % "0.23.11",
+  "org.http4s" %% "http4s-blaze-server" % "0.23.11",
+  "org.http4s" %% "http4s-blaze-client" % "0.23.11",
   "org.http4s" %% "http4s-dsl" % "0.23.11",
   "org.http4s" %% "http4s-circe" % "0.23.11",
   "org.typelevel" %% "cats-core" % "2.7.0",

@@ -7,6 +7,13 @@ import cats.implicits._
 
 import java.util.UUID
 
+
+case class TutorialInput(
+  title: String,
+  description: Option[String],
+  published: Boolean
+)
+
 case class Tutorial(
   id: UUID,
   title: String,
@@ -22,30 +29,34 @@ final class TutorialService[F[_]: Sync](trx: Transactor[F]) {
       .to[List]
       .transact(trx)
 
-  def insert(tutorial: Tutorial): F[String] = {
-    val newId = UUID.randomUUID().toString
-    Queries.insert(tutorial)
+  def insert(tutorial: TutorialInput): F[String] = {
+    val newId = UUID.randomUUID()
+    val tutorialBody = Tutorial(newId, tutorial.title, tutorial.description, tutorial.published)
+    Queries.insert(tutorialBody)
       .run
-      .map(_ => newId)
+      .map(_ => newId.toString)
       .transact(trx)
   }
 
-  def update(tutorial: Tutorial): F[Unit] =
+  def update(tutorial: Tutorial): F[String] = {
+    val id = tutorial.id.toString
     Queries
       .update(tutorial)
       .run
+      .map(_ => id)
       .transact(trx)
-      .void
+  }
 
-  def delete(id: String): F[Int] =
+  def delete(id: String): F[Int] = {
     Queries
-      .delete(id)
+      .delete(UUID.fromString(id))
       .run
       .transact(trx)
+  }
 
   def getById(id: String): F[Option[Tutorial]] =
     Queries
-      .getById(id)
+      .getById(UUID.fromString(id))
       .option
       .transact(trx)
 
@@ -67,27 +78,29 @@ private object Queries {
   implicit val logHandler: LogHandler = LogHandler.jdkLogHandler
 
   def getAll =
-    sql"SELECT id, title, description, published FROM tutorial".query[Tutorial]
+    sql"SELECT id, title, description, published FROM tutorials".query[Tutorial]
 
   def insert(t: Tutorial): Update0 =
-    sql"INSERT INTO tutorial (id, title, description, published) values (${t.id}, t.title, t.description, t.published)".update
+    sql"INSERT INTO tutorials (id, title, description, published) values (${t.id}, ${t.title}, ${t.description}, ${t.published})".update
 
   def update(t: Tutorial): Update0 =
-    sql"""|UPDATE tutorial SET
+    sql"""|UPDATE tutorials SET
           |  title = ${t.title},
           |  description = ${t.description},
           |  published = ${t.published}
           |WHERE id = ${t.id}""".stripMargin.update
 
-  def delete(id: String) =
-    sql"DELETE FROM tutorial where id = $id".update
+  def delete(id: UUID) =
+    sql"DELETE FROM tutorials where id = $id".update
 
-  def getById(id: String) =
-    sql"SELECT id, title, description, published FROM tutorial WHERE id = $id".query[Tutorial]
+  def getById(id: UUID) =
+    sql"SELECT id, title, description, published FROM tutorials WHERE id = $id".query[Tutorial]
 
   def deleteAll =
-    sql"TRANSCATE TABLE tutorial".update
+    sql"TRANSCATE TABLE tutorials".update
 
-  def findWhereContains(keywords: String) =
-    sql"SELECT id, title, description, published FROM tutorial WHERE id LIKE '%${keywords}%' ".query[Tutorial]
+  def findWhereContains(keywords: String) = {
+    val key = s"%${keywords}%"
+    sql"SELECT id, title, description, published FROM tutorials WHERE title LIKE $key ".query[Tutorial]
+  }
 }

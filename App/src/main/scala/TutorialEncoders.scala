@@ -1,23 +1,21 @@
-import cats.effect.IO
+
+import cats.effect.Async
 import io.circe.generic.semiauto._
-import io.circe.{Decoder, Encoder, HCursor, Json}
+import io.circe.{Decoder, Encoder}
 import org.http4s.{EntityDecoder, EntityEncoder}
 import org.http4s.circe._
 
-import java.util.UUID
 
 object TutorialEncoders {
+  implicit val tutorialEncoder: Encoder[Tutorial] = deriveEncoder
+  implicit val tutorialDecoder: Decoder[Tutorial] = deriveDecoder
 
-  implicit val UUIDFormat: Encoder[UUID] with Decoder[UUID] =
-    new Encoder[UUID] with Decoder[UUID] {
-      override def apply(a: UUID): Json                    = Encoder.encodeString.apply(a.toString)
-      override def apply(c: HCursor): Decoder.Result[UUID] =
-        Decoder.decodeString.map(s => UUID.fromString(s)).apply(c)
-    }
+  implicit def tutorialEntityDecoder[F[_]: Async]: EntityDecoder[F, Tutorial] = jsonOf[F, Tutorial]
+  implicit def tutorialEntityEncoder[F[_]]: EntityEncoder[F, Tutorial] = jsonEncoderOf[F, Tutorial]
 
-  implicit val deviceEncoder: Encoder[Tutorial] = deriveEncoder[Tutorial]
-  implicit val deviceDecoder: Decoder[Tutorial] = deriveDecoder[Tutorial]
+  implicit val tutorialInputEncoder: Encoder[TutorialInput] = deriveEncoder
+  implicit val tutorialInputDecoder: Decoder[TutorialInput] = deriveDecoder
 
-  implicit def deviceEntityDecoder: EntityDecoder[IO, Tutorial] = jsonOf[IO, Tutorial]
-  implicit def deviceEntityEncoder: EntityEncoder[IO, Tutorial] = jsonEncoderOf[IO, Tutorial]
+  implicit def tutorialInputEntityDecoder[F[_]: Async]: EntityDecoder[F, TutorialInput] = jsonOf[F, TutorialInput]
+  implicit def tutorialInputEntityEncoder[F[_]]: EntityEncoder[F, TutorialInput] = jsonEncoderOf[F, TutorialInput]
 }

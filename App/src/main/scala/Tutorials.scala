@@ -1,6 +1,6 @@
 trait Tutorials[F[_]] {
-  def insert(tutorial: Tutorial): F[String]
-  def update(dev: Tutorial): F[Unit]
+  def insert(tutorial: TutorialInput): F[String]
+  def update(tutorial: Tutorial): F[String]
   def delete(id: String): F[Int]
 
   def getAll: F[List[Tutorial]]
@@ -13,9 +13,9 @@ object Tutorials {
   implicit def apply[F[_]](implicit ev: Tutorials[F]): Tutorials[F] = ev
   
   final class TutorialImpl[F[_]](service: TutorialService[F]) extends Tutorials[F] {
-    override def insert(tutorial: Tutorial): F[String] = service.insert(tutorial)
+    override def insert(tutorial: TutorialInput): F[String] = service.insert(tutorial)
 
-    override def update(tutorial: Tutorial): F[Unit] = service.update(tutorial)
+    override def update(tutorial: Tutorial): F[String] = service.update(tutorial)
 
     override def delete(id: String): F[Int] = service.delete(id)
 
