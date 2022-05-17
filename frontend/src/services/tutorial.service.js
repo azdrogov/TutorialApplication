@@ -7,5 +7,5 @@ export default {
   update: (id, data) => http.put(`/tutorials/${id}`, data),
   delete: (id) => http.delete(`/tutorials/${id}`),
   deleteAll: () => http.delete('/tutorials'),
-  findByTitle: (title) => http.get(`/tutorials/search/keywords?keyWord=${title}`)
+  findByKeyWord: (keyWord) => http.get(`/tutorials/search/keywords?keyWord=${keyWord}`)
 }
