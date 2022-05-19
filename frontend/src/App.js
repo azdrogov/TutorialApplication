@@ -24,11 +24,11 @@ function App() {
         </div>
       </nav>
       <div className={'container mt-3'}>
-        <Switch>
+{/*        <Switch>
           <Route exact path={['/', '/tutorials']} component={TutorialsList}/>
           <Route exact path={'/add'} component={AddTutorial}/>
           <Route path={'/tutorials/:id'} component={Tutorial}/>
-        </Switch>
+        </Switch>*/}
       </div>
     </Router>
   );
