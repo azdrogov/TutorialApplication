@@ -78,29 +78,29 @@ private object Queries {
   implicit val logHandler: LogHandler = LogHandler.jdkLogHandler
 
   def getAll =
-    sql"SELECT id, title, description, published FROM tutorials".query[Tutorial]
+    sql"SELECT id, title, description, published FROM Tutorials;".query[Tutorial]
 
   def insert(t: Tutorial): Update0 =
-    sql"INSERT INTO tutorials (id, title, description, published) values (${t.id}, ${t.title}, ${t.description}, ${t.published})".update
+    sql"INSERT INTO Tutorials (id, title, description, published) values (${t.id}, ${t.title}, ${t.description}, ${t.published})".update
 
   def update(t: Tutorial): Update0 =
-    sql"""|UPDATE tutorials SET
+    sql"""|UPDATE Tutorials SET
           |  title = ${t.title},
           |  description = ${t.description},
           |  published = ${t.published}
           |WHERE id = ${t.id}""".stripMargin.update
 
   def delete(id: UUID) =
-    sql"DELETE FROM tutorials where id = $id".update
+    sql"DELETE FROM Tutorials where id = $id".update
 
   def getById(id: UUID) =
-    sql"SELECT id, title, description, published FROM tutorials WHERE id = $id".query[Tutorial]
+    sql"SELECT id, title, description, published FROM Tutorials WHERE id = $id".query[Tutorial]
 
   def deleteAll =
-    sql"TRANSCATE TABLE tutorials".update
+    sql"TRANSCATE TABLE Tutorials".update
 
   def findWhereContains(keywords: String) = {
     val key = s"%${keywords}%"
-    sql"SELECT id, title, description, published FROM tutorials WHERE title LIKE $key ".query[Tutorial]
+    sql"SELECT id, title, description, published FROM Tutorials WHERE title LIKE $key ".query[Tutorial]
   }
 }
