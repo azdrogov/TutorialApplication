@@ -3,12 +3,13 @@ import {connect} from "react-redux";
 import Tutorials from "./Tutorials";
 
 const mapStateToProps = (state) => ({
-    tutorials: state.tutorials,
+    tutorials: state.root.tutorials,
+    errorMessage: state.root.errorMessage
 });
 
 const mapDispatchToProps = (dispatch) => ({
     loadTutorials() {
-        dispatch(fetchTutorials('aaa'))
+        dispatch(fetchTutorials())
     },
 });
 
