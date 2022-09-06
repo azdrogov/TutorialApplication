@@ -1,24 +1,17 @@
-import { ofType } from 'redux-observable';
 import {fetchTutorials, setTutorials, tutorialsError} from "../actions/tutorialsActions";
-import {mergeMap, map, catchError, filter, switchMap} from 'rxjs/operators';
+import {mergeMap, map, catchError} from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
-import {  of } from 'rxjs';
+import {ofType} from "redux-observable";
 
-export const loadTutorials = (action$) => action$.pipe(
+export const loadTutorials = action$ => action$.pipe(
         ofType(fetchTutorials.toString()),
-        mergeMap((action) => {
-            return (
-              ajax.get('http://localhost:8000/api/tutorials', {'Accept': 'application/json, text/html'})
+        mergeMap(() =>
+            ajax.getJSON('http://localhost:8000/api/tutorials', {'Accept': 'application/json, text/html'})
                 .pipe(
                   map(response => {
-                    console.log("response", response)
-                    return of(setTutorials(response.response));
+                    return setTutorials(response)
                   }),
-                  catchError(error => {
-                    console.error(error)
-                    return of(tutorialsError(error.message));
-                  })
+                  catchError(error => tutorialsError(error.message))
                 )
-            )
-        })
+        )
     )

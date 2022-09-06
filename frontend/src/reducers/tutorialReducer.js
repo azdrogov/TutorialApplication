@@ -1,5 +1,5 @@
-import {handleActions} from 'redux-actions';
 import {fetchTutorials, setTutorials, tutorialsError} from "../actions/tutorialsActions";
+import {handleActions} from "redux-actions";
 
 export default handleActions({
     [fetchTutorials.toString()]: (state) => {
@@ -10,7 +10,7 @@ export default handleActions({
         const newState = state;
         return {
             ...newState,
-            tutorials: payload
+            tutorials: payload.payload
         }
     },
     [tutorialsError.toString()]: (state, payload) => {
@@ -21,5 +21,10 @@ export default handleActions({
         }
     }
 },
-    {}
+    {
+        root: {
+            tutorials: [{id: '', title: '', description: '', published: false}],
+            errorMessage: ""
+        }
+    }
 )

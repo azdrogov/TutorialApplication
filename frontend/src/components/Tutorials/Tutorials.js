@@ -11,8 +11,10 @@ const Tutorials = (props) => {
     return (
         <div>
             <>
-                <h6 >{tutorials}</h6>
-                <h6 >{errorMessage}</h6>
+                {tutorials.map(tutorial => {
+                    return (<h6 key={tutorial.id}>{tutorial.title}</h6>)
+                })}
+                <h6>{errorMessage}</h6>
             </>
         </div>
     )

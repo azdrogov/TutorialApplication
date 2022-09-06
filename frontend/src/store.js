@@ -1,24 +1,23 @@
 import {configureStore} from "@reduxjs/toolkit";
 import rootReducers from './reducers'
-import epics from './epics'
-import { createEpicMiddleware } from 'redux-observable';
-import thunk from "redux-thunk";
+import logger from 'redux-logger'
+import {createEpicMiddleware} from "redux-observable";
+import epics from "./epics";
 
 const initialState = {
     root: {
-        tutorials: [],
-        errorMessage: ""
+        tutorials: [{id: '', title: '', description: '', published: false}],
+        errorMessage: ''
     }
 }
-
 const epicMiddleware = createEpicMiddleware();
 const storeResult = () => {
     const store = configureStore({
         reducer: rootReducers,
-        preloadedState: initialState,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([epicMiddleware]),
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger, epicMiddleware),
+        preloadedState: initialState
     });
-    epicMiddleware.run(epics)
+    epicMiddleware.run(epics);
     return store;
 }
 export default storeResult();
