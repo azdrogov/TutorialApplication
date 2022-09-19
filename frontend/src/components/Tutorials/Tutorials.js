@@ -1,8 +1,13 @@
 import {useEffect} from "react";
+import CreateTutorialForm from "./CreateTutorialForm";
 
 const Tutorials = (props) => {
     const { tutorials, errorMessage } = props;
-    const { loadTutorials, dispatch } = props;
+    const {
+        loadTutorials,
+        createTutorial
+    } = props;
+    const {dispatch} = props;
 
     useEffect(() => {
         loadTutorials();
@@ -15,6 +20,8 @@ const Tutorials = (props) => {
                     return (<h6 key={tutorial.id}>{tutorial.title}</h6>)
                 })}
                 <h6>{errorMessage}</h6>
+
+                <CreateTutorialForm onSubmit={createTutorial}/>
             </>
         </div>
     )

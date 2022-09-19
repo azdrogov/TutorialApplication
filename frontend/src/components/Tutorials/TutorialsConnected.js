@@ -1,4 +1,4 @@
-import {fetchTutorials} from "../../actions/tutorialsActions";
+import {createTutorial, fetchTutorials, setTutorial} from "../../actions/tutorialsActions";
 import {connect} from "react-redux";
 import Tutorials from "./Tutorials";
 
@@ -12,6 +12,9 @@ const mapDispatchToProps = (dispatch) => ({
     loadTutorials() {
         dispatch(fetchTutorials())
     },
+    createTutorial(payload) {
+        dispatch(createTutorial(payload))
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tutorials);

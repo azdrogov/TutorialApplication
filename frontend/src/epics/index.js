@@ -1,6 +1,7 @@
 import {combineEpics} from "redux-observable";
-import {loadTutorials} from './tutorials';
+import {createTutorialAction, loadTutorials} from './tutorials';
 
 export default combineEpics(
     loadTutorials,
+	createTutorialAction
 );
