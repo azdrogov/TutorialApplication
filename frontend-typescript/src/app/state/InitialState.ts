@@ -1,6 +1,6 @@
-import {IRootState} from './StoreNamespace';
+import Store from './StoreNamespace';
 
-const initialState: IRootState = {
+const initialState: Store.IRootState = {
     root: {
         tutorials: [],
         errorMessage: ''

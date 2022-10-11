@@ -1,15 +1,19 @@
-export interface IRootState {
-    root: RootBody
+namespace Store {
+    export interface IRootState {
+        root: TutorialResponseBody
+    }
 }
 
-export type RootBody = {
-    tutorials: StoreNamespace[]
+export type TutorialResponseBody = {
+    tutorials: Tutorial[]
     errorMessage: string
 }
 
-export type StoreNamespace = {
+export type Tutorial = {
     id: string,
     title: string,
     description: string,
     published: boolean
 }
+
+export default Store;

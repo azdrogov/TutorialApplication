@@ -1,22 +1,18 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
-import initialState from './state/InitialState';
+import {configureStore} from '@reduxjs/toolkit';
 import {createEpicMiddleware} from "redux-observable";
-
-const initialState1 = initialState
+import tutorialsReducer from './redux/reducers';
+import logger from 'redux-logger'
+import initialState from './state/InitialState';
 
 const epicMiddleware = createEpicMiddleware();
-export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-  },
-});
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
+const storeResult = () => {
+    return configureStore({
+        reducer: tutorialsReducer,
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger, epicMiddleware),
+        preloadedState: initialState
+    });
+}
+
+export default storeResult();
+
