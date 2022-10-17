@@ -1,7 +1,7 @@
-import {Tutorial} from '../../app/state/StoreNamespace';
+import {Tutorials} from '../../app/state/StoreNamespace';
 
 export type TutorialsStateProps = {
-    tutorials: Tutorial[];
+    tutorials: Tutorials;
     errorMessage: string;
 }
 
