@@ -1,8 +1,3 @@
-export interface ITutorialState {
-    tutorials: ITutorial[],
-    errorMessage: string
-}
-
 export interface ITutorial {
     id: string,
     title: string,
