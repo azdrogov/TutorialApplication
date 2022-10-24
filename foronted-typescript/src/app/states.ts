@@ -11,4 +11,10 @@ export interface ITutorialInput {
     published: boolean
 }
 
+export const initialTutorialInput = {
+    title: '',
+    description: '',
+    published: false
+}
+
 export const initialState: ITutorial[] = []
