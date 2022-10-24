@@ -1,11 +1,12 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
-import {useAddTutorialMutation, useGetTutorialsQuery} from './tutorialsApi';
+import {useAddTutorialMutation, useDeleteTutorialMutation, useGetTutorialsQuery} from './tutorialsApi';
 import {initialState, initialTutorialInput, ITutorialInput} from '../../app/states';
 
 export function Tutorials() {
     const {data = initialState, isLoading} = useGetTutorialsQuery('');
     const [newTutorial, setNewTutorial] = useState<ITutorialInput>(initialTutorialInput)
     const [addTutorial] = useAddTutorialMutation()
+    const [deleteTutorial] = useDeleteTutorialMutation()
 
     const handleAddTutorial = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -13,6 +14,10 @@ export function Tutorials() {
             await addTutorial(newTutorial).unwrap()
         }
         setNewTutorial(initialTutorialInput);
+    }
+
+    const handleDeleteTutorial = async (id: string) => {
+        await deleteTutorial(id).unwrap()
     }
 
     const onChangeFormData = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +42,7 @@ export function Tutorials() {
             </div>
             <ul>
                 {data.map(tutorial => (
-                    <li key={tutorial.id}>
+                    <li key={tutorial.id} onClick={() => handleDeleteTutorial(tutorial.id)}>
                         {tutorial.title}
                     </li>
                 ))}
