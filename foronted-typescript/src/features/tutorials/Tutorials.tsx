@@ -28,25 +28,26 @@ export function Tutorials() {
         }
     }
 
-    if (isLoading) return <h1>Loading...</h1>
     return (
-        <div>
-            <div>
-                <form onSubmit={handleAddTutorial}>
-                    <input type={'text'} name={'title'} placeholder='Название' value={newTutorial.title} onChange={onChangeFormData}/>
-                    <input type={'text'} name={'description'} placeholder='Описание' value={newTutorial.description} onChange={onChangeFormData}/>
-                    <input type={'checkbox'} name={'published'} placeholder='Опубликовано?' checked={newTutorial.published} onChange={onChangeFormData}/>
-
-                    <button type="submit">Кнопка</button>
-                </form>
-            </div>
-            <ul>
-                {data.map(tutorial => (
-                    <li key={tutorial.id} onClick={() => handleDeleteTutorial(tutorial.id)}>
-                        {tutorial.title}
+        <>
+            <form onSubmit={handleAddTutorial}>
+                <div className={'form-data'}>
+                    <input placeholder={'Заголовок'} type={'text'} name={'title'} onChange={onChangeFormData}/>
+                    <input placeholder={'Описание'} type={'text'} name={'description'} onChange={onChangeFormData}/>
+                </div>
+                <div className={'form-button'}>
+                    <button type={'submit'}>&gt;</button>
+                </div>
+            </form>
+            <ol className={'tutorials-list'}>
+                {data.filter(val => val.title).map((val) => (
+                    <li key={val.id}>
+                        <label>{val.title}</label>
+                        <p>{val.description}</p>
                     </li>
-                ))}
-            </ul>
-        </div>
+                    )
+                )}
+            </ol>
+        </>
     )
 }

@@ -3,13 +3,13 @@ import './App.css';
 import {Tutorials} from './features/tutorials/Tutorials';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Tutorials/>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <section>
+                <Tutorials/>
+            </section>
+        </div>
+    );
 }
 
 export default App;
