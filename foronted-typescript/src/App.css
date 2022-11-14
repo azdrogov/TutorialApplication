@@ -9,7 +9,7 @@ ol {
 .App section form {
     height: 150px;
     width: 50%;
-    margin: 0 auto;
+    margin: 10px auto;
     padding: 1em;
     border: 2px solid #CCC;
     border-radius: 1em;
@@ -36,8 +36,11 @@ ol {
     padding: 10px;
     background-color: #f8f8f8;
     border: 1px solid #CCC;
-    border-right: none;
 
+}
+.form-data > input:focus {
+    outline: 1px solid #CCC;
+    outline-right: none;
 }
 .form-data > input + input {
     margin-top: 18px;
@@ -60,5 +63,15 @@ button {
 .tutorials-list li label {
     font-size: 18px;
     font-weight: bold;
+}
+.title-description {
+    display: inline-block;
+}
+.delete-button {
+    float: right;
+    display: inline-block;
+    height: 17px;
+    width: 17px;
+    margin: 5px;
 }
 

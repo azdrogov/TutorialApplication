@@ -1,6 +1,7 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import {useAddTutorialMutation, useDeleteTutorialMutation, useGetTutorialsQuery} from './tutorialsApi';
 import {initialState, initialTutorialInput, ITutorialInput} from '../../app/states';
+import delButton from '../../images/delete.png'
 
 export function Tutorials() {
     const {data = initialState, isLoading} = useGetTutorialsQuery('');
@@ -39,15 +40,19 @@ export function Tutorials() {
                     <button type={'submit'}>&gt;</button>
                 </div>
             </form>
-            <ol className={'tutorials-list'}>
-                {data.filter(val => val.title).map((val) => (
-                    <li key={val.id}>
-                        <label>{val.title}</label>
-                        <p>{val.description}</p>
-                    </li>
-                    )
-                )}
-            </ol>
+            {isLoading ? 'Loading...' :
+                <ol className={'tutorials-list'}>
+                    {data.filter(val => val.title).map((val) => (
+                        <li key={val.id}>
+                            <div className={'title-description'}>
+                                <label>{val.title}</label>
+                                <p>{val.description}</p>
+                            </div>
+                            <div className={'delete-button'} onClick={() => handleDeleteTutorial(val.id)}><img src={delButton} alt={'delete'}/></div>
+                        </li>
+                    ))}
+                </ol>
+            }
         </>
     )
 }
