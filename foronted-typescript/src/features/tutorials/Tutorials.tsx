@@ -33,8 +33,8 @@ export function Tutorials() {
         <>
             <form onSubmit={handleAddTutorial}>
                 <div className={'form-data'}>
-                    <input placeholder={'Заголовок'} type={'text'} name={'title'} onChange={onChangeFormData}/>
-                    <input placeholder={'Описание'} type={'text'} name={'description'} onChange={onChangeFormData}/>
+                    <input placeholder={'Заголовок'} type={'text'} name={'title'} onChange={onChangeFormData} value={newTutorial.title}/>
+                    <input placeholder={'Описание'} type={'text'} name={'description'} onChange={onChangeFormData} value={newTutorial.description}/>
                 </div>
                 <div className={'form-button'}>
                     <button type={'submit'}>&gt;</button>
