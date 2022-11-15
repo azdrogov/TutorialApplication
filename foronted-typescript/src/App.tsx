@@ -6,12 +6,16 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path={'/'} element={<Tutorials />} />
-                <Route path={'/:id'} element={<TutorialCard />} />
-            </Routes>
-        </BrowserRouter>
+        <div className="App">
+            <section>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path={'/'} element={<Tutorials />} />
+                        <Route path={'/:id'} element={<TutorialCard />} />
+                    </Routes>
+                </BrowserRouter>
+            </section>
+        </div>
     );
 }
 

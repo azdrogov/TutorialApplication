@@ -35,33 +35,31 @@ export function Tutorials() {
     }
 
     return (
-        <div className="App">
-            <section>
-                <form onSubmit={handleAddTutorial}>
-                    <div className={'form-data'}>
-                        <input placeholder={'Заголовок'} type={'text'} name={'title'} onChange={onChangeFormData} value={newTutorial.title}/>
-                        <input placeholder={'Описание'} type={'text'} name={'description'} onChange={onChangeFormData} value={newTutorial.description}/>
-                    </div>
-                    <div className={'form-button'}>
-                        <button type={'submit'}>&gt;</button>
-                    </div>
-                </form>
-                {isLoading ? <p className={'loading'}>Loading...</p> :
-                    <ol className={'tutorials-list'}>
-                        {data.filter(val => val.title).map((val) => (
-                            <li key={val.id}>
-                                <div className={'tutorial-info'}>
-                                    <Link to={`/${val.id}`}>
-                                    <label>{val.title}</label>
-                                    <p>{val.description}</p>
-                                    </Link>
-                                </div>
-                                <div className={'delete-button'} onClick={() => handleDeleteTutorial(val.id)}><img src={delButton} alt={'delete'}/></div>
-                            </li>
-                        ))}
-                    </ol>
-                }
-            </section>
-        </div>
+        <>
+            <form onSubmit={handleAddTutorial}>
+                <div className={'form-data'}>
+                    <input placeholder={'Заголовок'} type={'text'} name={'title'} onChange={onChangeFormData} value={newTutorial.title}/>
+                    <input placeholder={'Описание'} type={'text'} name={'description'} onChange={onChangeFormData} value={newTutorial.description}/>
+                </div>
+                <div className={'form-button'}>
+                    <button type={'submit'}>&gt;</button>
+                </div>
+            </form>
+            {isLoading ? <p className={'loading'}>Loading...</p> :
+                <ol className={'tutorials-list'}>
+                    {data.filter(val => val.title).map((val) => (
+                        <li key={val.id}>
+                            <div className={'tutorial-info'}>
+                                <Link to={`/${val.id}`}>
+                                <label>{val.title}</label>
+                                <p>{val.description}</p>
+                                </Link>
+                            </div>
+                            <div className={'delete-button'} onClick={() => handleDeleteTutorial(val.id)}><img src={delButton} alt={'delete'}/></div>
+                        </li>
+                    ))}
+                </ol>
+            }
+        </>
     )
 }
