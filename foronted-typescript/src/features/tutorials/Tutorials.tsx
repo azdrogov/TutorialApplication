@@ -50,10 +50,10 @@ export function Tutorials() {
                     {data.filter(val => val.title).map((val) => (
                         <li key={val.id}>
                             <div className={'tutorial-info'}>
-                                <Link to={`/${val.id}`}>
-                                <label>{val.title}</label>
-                                <p>{val.description}</p>
+                                <Link to={`/${val.id}`} className={'card-button'}>
+                                    <div className={'title'}>{val.title}</div>
                                 </Link>
+                                <p>{val.description}</p>
                             </div>
                             <div className={'delete-button'} onClick={() => handleDeleteTutorial(val.id)}><img src={delButton} alt={'delete'}/></div>
                         </li>

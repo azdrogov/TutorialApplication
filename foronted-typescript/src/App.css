@@ -63,12 +63,15 @@ section p {
     border-bottom: 1px solid #CCC;
     padding: 5px;
 }
-.tutorials-list li label {
+.tutorials-list li .title {
     font-size: 18px;
     font-weight: bold;
 }
 .tutorial-info {
     display: inline-block;
+}
+.card-button {
+    cursor: pointer;
 }
 .delete-button {
     float: right;
@@ -77,4 +80,42 @@ section p {
     width: 17px;
     margin: 5px;
 }
+
+.card {
+    width: 50%;
+    margin: 0 auto;
+    padding: 10px;
+    border: 3px solid #CCC;
+    border-radius: 10px;
+}
+.card .field {
+    display: block;
+    padding: 5px;
+}
+.card .field > * {
+    display: inline-block;
+}
+.card .field > label {
+    margin-right: 5px;
+}
+.title {
+    font-size: 31px;
+    font-weight: bold;
+}
+.published {
+    text-align: right;
+    font-size: 10px;
+}
+.edit-button {
+    height: 22px;
+    width: 22px;
+    margin-left: 10px;
+}
+
+
+
+
+
+
+
 
