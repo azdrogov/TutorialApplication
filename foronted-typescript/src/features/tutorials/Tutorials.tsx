@@ -46,7 +46,7 @@ export function Tutorials() {
                         <button type={'submit'}>&gt;</button>
                     </div>
                 </form>
-                {isLoading ? 'Loading...' :
+                {true ? <p className={'loading'}>Loading...</p> :
                     <ol className={'tutorials-list'}>
                         {data.filter(val => val.title).map((val) => (
                             <li key={val.id}>
