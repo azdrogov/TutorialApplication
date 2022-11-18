@@ -18,3 +18,10 @@ export const initialTutorialInput = {
 }
 
 export const initialState: ITutorial[] = []
+
+export const initialTutorial: ITutorial = {
+    id: '',
+    title: '',
+    description: '',
+    published: false
+}
