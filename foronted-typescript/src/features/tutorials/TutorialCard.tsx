@@ -5,20 +5,24 @@ import edit from '../../images/edit.png'
 import {useEffect, useState} from 'react';
 import {EditCard} from './EditCard';
 import {saveTutorial} from './tutorialsSlice';
+import {useDispatch} from 'react-redux';
 
 export function TutorialCard() {
     const {id} = useParams();
     const {data} = useGetTutorialByIdQuery(id);
     const [isEdit, editTumbler] = useState(false)
+    const dispatch = useDispatch();
 
     const onEditButton = () => {
         editTumbler(!isEdit)
     }
 
     useEffect(() => {
-        console.log('Привет', data)
-        saveTutorial(data)
-    }, [data])
+        console.log(data)
+        if (data) {
+            dispatch(saveTutorial(data))
+        }
+    }, [dispatch, data])
 
     return (
         <>

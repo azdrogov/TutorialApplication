@@ -6,7 +6,7 @@ import tutorialsSlice from '../features/tutorials/tutorialsSlice'
 export const store = configureStore({
   reducer: {
       [tutorialsApi.reducerPath]: tutorialsApi.reducer,
-      tutorialsSlice: tutorialsSlice
+      tutorial: tutorialsSlice
   },
   middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(tutorialsApi.middleware)

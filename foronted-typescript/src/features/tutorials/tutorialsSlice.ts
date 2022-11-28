@@ -13,7 +13,7 @@ const tutorialsSlice = createSlice({
             newState.title = payload.title
             newState.description = payload.description
             newState.published = payload.published
-            console.log('NewState', newState)
+            return newState
         }
     }
 })
