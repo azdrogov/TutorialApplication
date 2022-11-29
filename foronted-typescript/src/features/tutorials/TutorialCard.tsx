@@ -28,7 +28,7 @@ export function TutorialCard() {
         <>
             {isEdit ? (<EditCard />) : (
                 <div className={'card'}>
-                    <Link to={'/'}>
+                    <Link className={'back-button'} to={'/'}>
                         <img src={back} />
                     </Link>
                     <div className={'field'}>
