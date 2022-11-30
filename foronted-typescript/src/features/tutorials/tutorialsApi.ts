@@ -36,8 +36,24 @@ export const tutorialsApi = api.injectEndpoints({
         }),
         getTutorialById: build.query<ITutorial | null, string | undefined>({
             query: (id: string) => `tutorials/${id}`
+        }),
+        updateTutorial: build.mutation<string, ITutorial>({
+            query: (body: ITutorial) => {
+                return ({
+                    url: 'tutorials',
+                    method: 'PUT',
+                    body
+                })
+            },
+            invalidatesTags: [{type: 'Tutorials', id: 'LIST'}]
         })
     })
 })
 
-export const {useGetTutorialsQuery, useAddTutorialMutation, useDeleteTutorialMutation, useGetTutorialByIdQuery} = tutorialsApi
+export const {
+    useGetTutorialsQuery,
+    useAddTutorialMutation,
+    useDeleteTutorialMutation,
+    useGetTutorialByIdQuery,
+    useUpdateTutorialMutation
+} = tutorialsApi

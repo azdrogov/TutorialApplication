@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux';
 
 export function TutorialCard() {
     const {id} = useParams();
-    const {data} = useGetTutorialByIdQuery(id);
+    const {data, refetch} = useGetTutorialByIdQuery(id);
     const [isEdit, editTumbler] = useState(false)
     const dispatch = useDispatch();
 
@@ -18,7 +18,7 @@ export function TutorialCard() {
     }
 
     useEffect(() => {
-        console.log(data)
+        refetch()
         if (data) {
             dispatch(saveTutorial(data))
         }

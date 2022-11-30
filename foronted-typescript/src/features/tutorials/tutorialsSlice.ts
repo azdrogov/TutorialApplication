@@ -1,11 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {initialTutorial} from '../../app/states';
+import {initialTutorial, ITutorial} from '../../app/states';
 
 const tutorialsSlice = createSlice({
     name: 'tutorialsSlice',
     initialState: initialTutorial,
     reducers: {
-        saveTutorial(state, action) {
+        saveTutorial(state: ITutorial, action) {
             const newState = {...state}
             const payload = action.payload
 
@@ -14,10 +14,15 @@ const tutorialsSlice = createSlice({
             newState.description = payload.description
             newState.published = payload.published
             return newState
+        },
+        changeParam(state: ITutorial, action: { payload: { name: string, value: string | boolean }, type: string }) {
+            const newState = {...state}
+            const payload = action.payload
+            return {...newState, [payload.name]: payload.value}
         }
     }
 })
 
-export const {saveTutorial} = tutorialsSlice.actions
+export const {saveTutorial, changeParam} = tutorialsSlice.actions
 
 export default tutorialsSlice.reducer

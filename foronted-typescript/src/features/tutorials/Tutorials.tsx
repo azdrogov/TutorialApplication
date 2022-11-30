@@ -1,25 +1,29 @@
-import React, {ChangeEvent, FormEvent, useState} from 'react';
+import React, {ChangeEvent, FormEvent, useEffect} from 'react';
 import {
     useAddTutorialMutation,
     useDeleteTutorialMutation,
     useGetTutorialsQuery
 } from './tutorialsApi';
-import {initialState, initialTutorialInput, ITutorialInput} from '../../app/states';
+import {initialState, initialTutorial} from '../../app/states';
 import delButton from '../../images/delete.png'
 import {Link} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../app/store';
+import {saveTutorial} from './tutorialsSlice';
 
 export function Tutorials() {
     const {data = initialState, isLoading } = useGetTutorialsQuery('');
-    const [newTutorial, setNewTutorial] = useState<ITutorialInput>(initialTutorialInput)
+    const tutorial = useSelector((state: RootState) => state.tutorial)
     const [addTutorial] = useAddTutorialMutation()
     const [deleteTutorial] = useDeleteTutorialMutation()
+    const dispatch = useDispatch();
 
     const handleAddTutorial = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (newTutorial) {
-            await addTutorial(newTutorial).unwrap()
+        if (tutorial) {
+            await addTutorial(tutorial).unwrap()
         }
-        setNewTutorial(initialTutorialInput);
+        saveTutorial(initialTutorial);
     }
 
     const handleDeleteTutorial = async (id: string) => {
@@ -27,19 +31,21 @@ export function Tutorials() {
     }
 
     const onChangeFormData = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.type === 'checkbox') {
-            setNewTutorial({...newTutorial, [e.target.name]: e.target.checked})
-        } else {
-            setNewTutorial({...newTutorial, [e.target.name]: e.target.value})
-        }
+        dispatch(saveTutorial({...tutorial, [e.target.name]: e.target.value}))
     }
+
+    useEffect(() => {
+        if (data) {
+            dispatch(saveTutorial(initialTutorial))
+        }
+    }, [dispatch, data])
 
     return (
         <>
             <form className={'form'} onSubmit={handleAddTutorial}>
                 <div className={'form-data'}>
-                    <input placeholder={'Заголовок'} type={'text'} name={'title'} onChange={onChangeFormData} value={newTutorial.title}/>
-                    <input placeholder={'Описание'} type={'text'} name={'description'} onChange={onChangeFormData} value={newTutorial.description}/>
+                    <input placeholder={'Заголовок'} type={'text'} name={'title'} onChange={onChangeFormData} value={tutorial.title}/>
+                    <input placeholder={'Описание'} type={'text'} name={'description'} onChange={onChangeFormData} value={tutorial.description}/>
                 </div>
                 <div className={'form-button'}>
                     <button type={'submit'}>&gt;</button>
