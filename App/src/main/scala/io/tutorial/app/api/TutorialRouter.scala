@@ -1,64 +1,67 @@
-import cats.effect.{Async, Sync}
+package io.tutorial.app.api
+
 import cats.implicits._
-import org.http4s._
+import cats.effect.Async
+import io.tutorial.app.TutorialService
+import io.tutorial.app.models.Tutorial
+import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 import org.http4s.dsl.io.{QueryParamDecoderMatcher, Root}
 
-object Routes {
-  import TutorialEncoders._
+object TutorialRouter {
+
   import org.http4s.circe.CirceEntityCodec._
 
   private val apiRoot = Root / "api"
 
   object TitleQueryParamMatcher extends QueryParamDecoderMatcher[String]("title")
 
-  def tutorialRoutes[F[_]: Async](tutorials: Tutorials[F]): HttpRoutes[F] = {
-    val dsl = new Http4sDsl[F]{}
+  def routes[F[_] : Async](service: TutorialService[F]): HttpRoutes[F] = {
+    val dsl = new Http4sDsl[F] {}
     import dsl._
 
     HttpRoutes.of[F] {
       case GET -> apiRoot / "tutorials" =>
         for {
-          ts <- tutorials.getAll
+          ts  <- service.list
           res <- Ok(ts)
         } yield res
 
-      case req @ POST -> apiRoot / "tutorials" =>
+      case req@POST -> apiRoot / "tutorials" =>
         for {
-          t <- req.as[TutorialInput]
-          id <- tutorials.insert(t)
+          t  <- req.as[AddTutorialRequest]
+          id <- service.insert(t)
           rs <- Ok(id)
         } yield rs
 
       case GET -> apiRoot / "tutorials" / id =>
         for {
-          t <- tutorials.getById(id)
+          t   <- service.findById(id)
           res <- if (t.isDefined) Ok(t) else NotFound()
         } yield res
 
-      case req @ PUT -> apiRoot / "tutorials" =>
+      case req@PUT -> apiRoot / "tutorials" =>
         for {
-          t <- req.as[Tutorial]
-          id <- tutorials.update(t)
+          t   <- req.as[Tutorial]
+          id  <- service.update(t)
           res <- Ok(id)
         } yield res
 
-      case DELETE -> apiRoot / "tutorials" / id => {
+      case DELETE -> apiRoot / "tutorials" / id =>
         for {
-          _ <- tutorials.delete(id)
+          _   <- service.delete(id)
           res <- Ok(id)
         } yield res
-      }
 
       case DELETE -> apiRoot / "tutorials" =>
         for {
-          _ <- tutorials.deleteAll()
+          _   <- service.deleteAll()
           res <- Ok("Удалено")
         } yield res
 
       case GET -> apiRoot / "tutorials" / "search" / "keywords" :? TitleQueryParamMatcher(keyWord) =>
         for {
-          ts <- tutorials.findByKeyWord(keyWord)
+          ts  <- service.listByKeyword(keyWord)
           res <- Ok(ts)
         } yield res
     }
