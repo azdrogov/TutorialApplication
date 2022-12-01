@@ -21,7 +21,7 @@ final class TutorialRepository {
       .query[Tutorial]
       .to[List]
 
-  def findById(id: String): ConnectionIO[Option[Tutorial]] =
+  def findById(id: UUID): ConnectionIO[Option[Tutorial]] =
     sql"""SELECT id, title, description, published FROM "Tutorials" WHERE id = $id"""
       .query[Tutorial]
       .option
@@ -39,12 +39,12 @@ final class TutorialRepository {
           |  title = ${tutorial.title},
           |  description = ${tutorial.description},
           |  published = ${tutorial.published}
-          |WHERE id = ${tutorial.id.toString}""".stripMargin
+          |WHERE id = ${tutorial.id}""".stripMargin
       .update
       .run
       .map(_ => tutorial.id.toString)
 
-  def delete(id: String): ConnectionIO[Int] =
+  def delete(id: UUID): ConnectionIO[Int] =
     sql"""DELETE FROM "Tutorials" where id = $id"""
       .update
       .run

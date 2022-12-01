@@ -7,6 +7,8 @@ import doobie.util.transactor.Transactor
 import io.tutorial.app.api.AddTutorialRequest
 import io.tutorial.app.models.Tutorial
 
+import java.util.UUID
+
 trait TutorialService[F[_]] {
   def list: F[List[Tutorial]]
 
@@ -34,7 +36,7 @@ object TutorialService {
       repo.listByKeyword(keyword).transact(xa)
 
     override def findById(id: String): F[Option[Tutorial]] =
-      repo.findById(id).transact(xa)
+      repo.findById(UUID.fromString(id)).transact(xa)
 
     override def insert(tutorial: AddTutorialRequest): F[String] =
       repo.insert(tutorial).transact(xa)
@@ -43,7 +45,7 @@ object TutorialService {
       repo.update(tutorial).transact(xa)
 
     override def delete(id: String): F[Int] =
-      repo.delete(id).transact(xa)
+      repo.delete(UUID.fromString(id)).transact(xa)
 
     override def deleteAll(): F[Unit] =
       repo.deleteAll().transact(xa).map(_ => ())
