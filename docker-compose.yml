@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: App/
+    environment:
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_USER: "postgres"
+      DB_PASS: "postgres"
+      DB_DATABASE: "postgres"
+      SERVER_HOST: "0.0.0.0"
+      SERVER_PORT: 8000
+    ports:
+      - 8000:8000
+
+  frontend:
+    build:
+      context: fronted-typescript/
+    ports:
+      - 3000:3000
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
+    volumes:
+      - ./App/src/main/resources/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5001:5432"

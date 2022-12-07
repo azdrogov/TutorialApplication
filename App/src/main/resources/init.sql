@@ -1,4 +1,3 @@
-CRATE DATABASE "tutorials_app";
 create table "Tutorials"
 (
     id          uuid               not null
